@@ -3,13 +3,9 @@ package com.hefesto.pokedex_equipevulcano
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 
-class PokemonDetailActivity : AppCompatActivity() {
+class PokemonAddActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_pokemon_detail)
-    }
-
-    companion object{
-        const val POKEMON_EXTRA = "Pokemon"
+        setContentView(R.layout.activity_pokemon_add)
     }
 }

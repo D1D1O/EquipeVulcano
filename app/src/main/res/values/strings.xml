@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Pokédex Equipe Vulcano</string>
+    <string name="done">PRONTO</string>
+    <string name="height">Altura</string>
+    <string name="weight">Peso</string>
+    <string name="location">Manaus</string>
 </resources>
