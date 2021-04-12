@@ -30,9 +30,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         //pokemons = listOf("Pteste1","Pteste2","PGiovanny")
-        rvPokemons.adapter = PokemonAdapter(pokemons)
+        rvPokemons.adapter = PokemonAdapter(pokemons) {
+            startActivity(Intent(this,PokemonDetailActivity::class.java))
+        }
         shouldDisplayEmptyView(pokemons.isEmpty())
-        //startActivity(Intent(this,PokemonDetailActivity::class.java))
+        //
 
     }
 
