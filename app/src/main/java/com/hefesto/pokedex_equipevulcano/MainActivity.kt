@@ -15,7 +15,7 @@ import kotlinx.android.synthetic.main.list_item_pokemon.view.*
 class MainActivity : AppCompatActivity() {
     private  var pokemons: List<Pokemon> = listOf(
         Pokemon(
-            "Pikachu234",
+            "Pikachu",
             254,
             listOf("Eletric"),
             6f,
@@ -23,6 +23,16 @@ class MainActivity : AppCompatActivity() {
             -3.1828263,
             -60.147652,
             "https://assets.pokemon.com/assets/cms2/img/misc/countries/pt/country_detail_pokemon.png"
+        ),
+        Pokemon(
+            "Red",
+            254,
+            listOf("Eletric"),
+            12f,
+            42f,
+            -3.1828263,
+            -60.147652,
+            "https://super.abril.com.br/wp-content/uploads/2018/07/57113eb00e2163161501025cpokemon21.jpeg"
         )
     )
 

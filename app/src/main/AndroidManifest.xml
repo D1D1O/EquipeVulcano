@@ -14,6 +14,7 @@
         <activity android:name=".PokemonAddActivity"></activity>
         <activity
             android:name=".PokemonDetailActivity"
+            android:label="@string/pokemon_detail_title"
             android:parentActivityName=".MainActivity" />
         <activity
             android:name=".MainActivity"

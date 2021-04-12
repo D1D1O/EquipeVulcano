@@ -4,4 +4,5 @@
     <string name="height">Altura</string>
     <string name="weight">Peso</string>
     <string name="location">Manaus</string>
+    <string name="pokemon_detail_title">Detalhes do pokémon</string>
 </resources>
