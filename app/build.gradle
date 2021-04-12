@@ -4,6 +4,10 @@ plugins {
     id 'kotlin-android-extensions'
 }
 
+Properties properties = new Properties()
+properties.load(rootProject.file("local.properties").newInputStream())
+def googleApiKey = properties["googleApiKey"]
+
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
@@ -45,4 +49,8 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'com.google.android.gms:play-services-location:18.0.0'
+    implementation "com.android.support:support-core-utils:28.0.0"
+    implementation 'com.google.android.libraries.places:places:2.3.0'
+
+
 }
