@@ -7,5 +7,6 @@ data class Pokemon(
     val weight: Float,
     val height: Float,
     val latitude: Double,
-    val longitude: Double
+    val longitude: Double,
+    val imageUrl: String
 )
