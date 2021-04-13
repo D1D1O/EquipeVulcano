@@ -5,4 +5,17 @@
     <string name="weight">Peso</string>
     <string name="location">Manaus</string>
     <string name="pokemon_detail_title">Detalhes do pokémon</string>
+    <string name="error_message">Algo de errado não está certo...</string>
+    <string name="invalid_fields_message">Campos inválidos!</string>
+
+
+
+    <string name="name">Nome</string>
+    <string name="pokemon_number_format">#%03d</string>
+    <string name="empty_message">Nada além de rastros por aqui…</string>
+    <string name="height_format">%.1f m</string>
+    <string name="weight_format">%.1f kg</string>
+    <string name="add_pokemon_title">Adicionar pokémon</string>
+
+
 </resources>

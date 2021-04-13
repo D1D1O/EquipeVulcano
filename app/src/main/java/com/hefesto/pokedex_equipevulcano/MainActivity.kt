@@ -15,45 +15,32 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.list_item_pokemon.view.*
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var adapter: PokemonAdapter
-    private  var pokemons: MutableList<Pokemon> = mutableListOf(
-        Pokemon(
-            "Pikachu",
-            254,
-            listOf("Eletric"),
-            6f,
-            4f,
-            -3.1828263,
-            -60.147652,
-            "https://assets.pokemon.com/assets/cms2/img/misc/countries/pt/country_detail_pokemon.png"
-        ),
-        Pokemon(
-            "Red",
-            254,
-            listOf("Eletric"),
-            12f,
-            42f,
-            -3.1828263,
-            -60.147652,
-            "https://super.abril.com.br/wp-content/uploads/2018/07/57113eb00e2163161501025cpokemon21.jpeg"
-        )
-    )
+    //private lateinit var adapter: PokemonAdapter
+    private  var pokemons: MutableList<Pokemon> = mutableListOf()
+
+    private var adapter: PokemonAdapter = PokemonAdapter(pokemons) {
+        Intent(this, PokemonDetailActivity::class.java).apply {
+            putExtra(PokemonDetailActivity.POKEMON_EXTRA, it)
+        }.also { startActivity(it) }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         Places.initialize(applicationContext,BuildConfig.GOOGLE_API_KEY)
+        setUpPokemonListWithRecyclerView()
+        setUpAddPokemonButtonClick()
 
-        setUpRecycleView()
+        shouldDisplayEmptyView()
+
+       /* setUpRecycleView()
         fabAddPokemon.setOnClickListener {
             val intent = Intent(this,PokemonAddActivity::class.java)
             startActivityForResult(intent,ADD_POKEMON_REQUEST_CODE)
         }
-        shouldDisplayEmptyView(pokemons.isEmpty())
-
-
+        shouldDisplayEmptyView(pokemons.isEmpty())*/
     }
-    private fun setUpRecycleView(){
+   /* private fun setUpRecycleView(){
         adapter = PokemonAdapter(pokemons) {
             val intent = Intent(this,PokemonDetailActivity::class.java).apply {
                 putExtra(PokemonDetailActivity.POKEMON_EXTRA,it)
@@ -62,23 +49,46 @@ class MainActivity : AppCompatActivity() {
         }
 
         rvPokemons.adapter = adapter
+    }*/
+
+    private fun setUpPokemonListWithRecyclerView() {
+        rvPokemons.adapter = adapter
     }
 
+    private fun setUpAddPokemonButtonClick() {
+        fabAddPokemon.setOnClickListener { startAddPokemonActivityForNewPokemon() }
+    }
 
-    fun shouldDisplayEmptyView(isEmpty: Boolean) {
+    private fun startAddPokemonActivityForNewPokemon() {
+        Intent(this, PokemonAddActivity::class.java).also {
+            startActivityForResult(it, ADD_POKEMON_REQUEST_CODE)
+        }
+    }
+
+    /*fun shouldDisplayEmptyView(isEmpty: Boolean) {
         emptyView.visibility = if (isEmpty) View.VISIBLE else View.GONE
+    }*/
+    private fun shouldDisplayEmptyView() {
+        emptyView.visibility = if (pokemons.isEmpty()) View.VISIBLE else View.GONE
     }
+
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if(requestCode == ADD_POKEMON_REQUEST_CODE && resultCode == Activity.RESULT_OK){
             data?.getParcelableExtra<Pokemon>(PokemonAddActivity.ADD_POKEMON_EXTRA)?.let{
-                pokemons.add(it)
-                adapter.notifyDataSetChanged()
+                //pokemons.add(it)
+                //adapter.notifyDataSetChanged()
+                appendNewPokemonToRecyclerView(it)
             }
 
         }
 
+    }
+    private fun appendNewPokemonToRecyclerView(pokemon: Pokemon){
+        pokemons.add(pokemon)
+        adapter.notifyItemInserted(pokemons.size -1)
+        shouldDisplayEmptyView()
     }
 
     companion object{

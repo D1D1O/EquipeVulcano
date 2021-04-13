@@ -8,6 +8,8 @@ import android.widget.Toast
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.Autocomplete
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
+import com.hefesto.pokedex_equipevulcano.ui.isFilled
+import com.hefesto.pokedex_equipevulcano.ui.shortToast
 import kotlinx.android.synthetic.main.activity_pokemon_add.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -26,6 +28,79 @@ import kotlinx.android.synthetic.main.activity_add_pokemon.**/
 
 class PokemonAddActivity : AppCompatActivity() {
     private lateinit var place: Place
+
+ /*   override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_pokemon_add)
+        setUpLocationInputClick()
+        setUpDoneButtonClick()
+    }
+
+    private fun setUpLocationInputClick() {
+        edtLocationInput.setOnClickListener { startAutocompleteActivityForPlace() }
+    }
+
+    private fun startAutocompleteActivityForPlace() {
+        val fields = listOf(Place.Field.ADDRESS, Place.Field.LAT_LNG)
+        Autocomplete.IntentBuilder(AutocompleteActivityMode.FULLSCREEN, fields).build(this).also {
+            startActivityForResult(it, AUTOCOMPLETE_REQUEST_CODE)
+        }
+    }
+
+    private fun setUpDoneButtonClick() {
+        btnDone.setOnClickListener {
+            if (edtNameInput.text.isFilled && edtLocationInput.text.isFilled) {
+                val name = edtNameInput.text.toString().toLowerCase(Locale.getDefault())
+                fetchPokemonByName(
+                    name,
+                    onSuccess = {
+                        val pokemonWithLocation = it.apply {
+                            latitude = place.latLng?.latitude ?: 0.0
+                            longitude = place.latLng?.longitude ?: 0.0
+                        }
+                        //AppDatabase.getInstance(this).pokemonDao.insert(pokemonWithLocation)
+                        finish()
+                    },
+                    onError = { shortToast(R.string.error_message) }
+                )
+            } else {
+                shortToast(R.string.invalid_fields_message)
+            }
+        }
+    }
+
+    private fun fetchPokemonByName(
+        name: String,
+        onSuccess: (Pokemon) -> Unit,
+        onError: () -> Unit
+    ) {
+        PokeApi.INSTANCE.getPokemonByName(name).enqueue(object : Callback<Pokemon> {
+            override fun onFailure(call: Call<Pokemon>, t: Throwable) {
+                onError()
+            }
+
+            override fun onResponse(call: Call<Pokemon>, response: Response<Pokemon>) {
+                val pokemon = response.body()
+                if (response.isSuccessful && pokemon != null) {
+                    onSuccess(pokemon)
+                } else {
+                    onError()
+                }
+            }
+        })
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == AUTOCOMPLETE_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            data?.let {
+                place = Autocomplete.getPlaceFromIntent(it)
+                edtLocationInput.setText(place.address)
+            }
+        }
+    }
+*/
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
