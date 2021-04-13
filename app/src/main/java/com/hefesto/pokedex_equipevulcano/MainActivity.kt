@@ -1,6 +1,7 @@
 package com.hefesto.pokedex_equipevulcano
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -8,12 +9,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.libraries.places.api.Places
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.list_item_pokemon.view.*
 
 class MainActivity : AppCompatActivity() {
-    private  var pokemons: List<Pokemon> = listOf(
+    private lateinit var adapter: PokemonAdapter
+    private  var pokemons: MutableList<Pokemon> = mutableListOf(
         Pokemon(
             "Pikachu",
             254,
@@ -39,50 +42,48 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        //pokemons = listOf("Pteste1","Pteste2","PGiovanny")
-       /* rvPokemons.adapter = PokemonAdapter(pokemons) {
-            startActivity(Intent(this,PokemonDetailActivity::class.java)).apply {
-                putExtra(PokemonDetailActivity.POKEMON_EXTRA,it)
-            }
-        }*/
-        rvPokemons.adapter = PokemonAdapter(pokemons) {
+        Places.initialize(applicationContext,BuildConfig.GOOGLE_API_KEY)
+
+        setUpRecycleView()
+        fabAddPokemon.setOnClickListener {
+            val intent = Intent(this,PokemonAddActivity::class.java)
+            startActivityForResult(intent,ADD_POKEMON_REQUEST_CODE)
+        }
+        shouldDisplayEmptyView(pokemons.isEmpty())
+
+
+    }
+    private fun setUpRecycleView(){
+        adapter = PokemonAdapter(pokemons) {
             val intent = Intent(this,PokemonDetailActivity::class.java).apply {
                 putExtra(PokemonDetailActivity.POKEMON_EXTRA,it)
             }
             startActivity(intent)
         }
-        shouldDisplayEmptyView(pokemons.isEmpty())
-        //
 
+        rvPokemons.adapter = adapter
     }
+
 
     fun shouldDisplayEmptyView(isEmpty: Boolean) {
         emptyView.visibility = if (isEmpty) View.VISIBLE else View.GONE
     }
 
-    class PokemonAdapter(
-        private val pokemons: List<Pokemon>,
-        private val onItemClick: (Pokemon) -> Unit
-    ):
-        RecyclerView.Adapter<PokemonAdapter.PokemonViewHolder>(){
-        class PokemonViewHolder(itemView: View): RecyclerView.ViewHolder(itemView)
-
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PokemonViewHolder {
-            val intemView = LayoutInflater.from(parent.context).inflate(R.layout.list_item_pokemon,parent,false)
-            return PokemonViewHolder(intemView)
-        }
-
-        override fun getItemCount() = pokemons.size
-
-        @SuppressLint("SetTextI18n")
-        override fun onBindViewHolder(holder: PokemonViewHolder, position: Int) {
-            holder.itemView.tvPokemonName.text = pokemons[position].name
-            holder.itemView.tvPokemonNumber.text = "#%03d".format(pokemons[position].number)
-            Picasso.get().load(pokemons[position].imageUrl).into(holder.itemView.ivPokemonImage)
-
-            holder.itemView.setOnClickListener {
-                onItemClick(pokemons[position])
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(requestCode == ADD_POKEMON_REQUEST_CODE && resultCode == Activity.RESULT_OK){
+            data?.getParcelableExtra<Pokemon>(PokemonAddActivity.ADD_POKEMON_EXTRA)?.let{
+                pokemons.add(it)
+                adapter.notifyDataSetChanged()
             }
+
         }
+
     }
+
+    companion object{
+        const val ADD_POKEMON_REQUEST_CODE = 1
+    }
+
+
 }

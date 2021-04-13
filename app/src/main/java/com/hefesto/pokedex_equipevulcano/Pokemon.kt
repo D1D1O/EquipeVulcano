@@ -10,7 +10,7 @@ data class Pokemon(
     val types:List<String>,
     val weight: Float,
     val height: Float,
-    val latitude: Double,
-    val longitude: Double,
+    var latitude: Double,
+    var longitude: Double,
     val imageUrl: String
 ):Parcelable
